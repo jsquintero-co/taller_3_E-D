@@ -1,0 +1,3 @@
+Mejor compra: ninguna
+Mejor venta: ninguna
+Arbol (inorden):

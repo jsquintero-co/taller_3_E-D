@@ -1,0 +1,4 @@
+VENTA v1 60 -> en espera
+Mejor compra: ninguna
+Mejor venta: 60
+Arbol (inorden): -60

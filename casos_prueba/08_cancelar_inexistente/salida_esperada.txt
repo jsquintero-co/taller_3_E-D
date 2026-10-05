@@ -1,0 +1,5 @@
+COMPRA c1 50 -> en espera
+CANCELAR 99 -> no encontrada
+Mejor compra: 50
+Mejor venta: ninguna
+Arbol (inorden): 50

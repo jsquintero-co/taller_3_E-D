@@ -1,0 +1,7 @@
+COMPRA a 50 -> en espera
+COMPRA b 40 -> en espera
+COMPRA c 30 -> en espera
+CANCELAR 40 -> OK (compra)
+Mejor compra: 50
+Mejor venta: ninguna
+Arbol (inorden): 30 50

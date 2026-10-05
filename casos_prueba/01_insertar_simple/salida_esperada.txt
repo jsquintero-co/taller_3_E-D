@@ -1,0 +1,4 @@
+COMPRA c1 50 -> en espera
+Mejor compra: 50
+Mejor venta: ninguna
+Arbol (inorden): 50

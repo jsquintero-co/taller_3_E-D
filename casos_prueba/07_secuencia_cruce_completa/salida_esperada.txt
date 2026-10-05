@@ -1,0 +1,10 @@
+COMPRA c1 50 -> en espera
+COMPRA c2 52 -> en espera
+VENTA v1 55 -> en espera
+VENTA v2 53 -> en espera
+VENTA v3 51 -> cruza con compra a 52
+CANCELAR 50 -> OK (compra)
+COMPRA c3 55 -> cruza con venta a 53
+Mejor compra: ninguna
+Mejor venta: 55
+Arbol (inorden): -55

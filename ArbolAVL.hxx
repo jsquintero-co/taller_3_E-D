@@ -1,0 +1,113 @@
+// (ArbolAVL.h ya esta incluido: este archivo se incluye desde su
+// final). Todas las funciones son TODO. Si agrega funciones nuevas
+// aqui, marquelas 'inline' para evitar errores de multiples
+// definiciones al enlazar (ver nota en el README).
+
+inline ArbolAVL::ArbolAVL() : raiz_(nullptr) {}
+
+//Se destruye en posOrden (izquierda, derecha y luego padre)
+inline void ArbolAVL::destruir(Nodo* nodo){
+    if (nodo == nullptr){
+        return;
+    }
+
+    destruir(nodo->izquierdo);
+    destruir(nodo->derecho);
+
+    delete nodo;
+}
+
+
+inline ArbolAVL::~ArbolAVL() {
+    // TODO(Estudiante): libere la memoria de todos los nodos del
+    // arbol (recorrido postorden: primero los hijos, despues el nodo).
+    destruir(raiz_);
+}
+
+inline int ArbolAVL::altura(Nodo* nodo) const {
+    if (nodo == nullptr) {
+        return 0;
+    }
+
+    return nodo->altura;
+}
+
+inline void ArbolAVL::actualizarAltura(Nodo* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    nodo->altura = 1 + std::max(
+        altura(nodo->izquierdo),
+        altura(nodo->derecho)
+    );
+}
+
+/*Se usa la fórmula de: alutra(izquierda) - altura(derecha)
+  Y se sabe que está bien balanceado cuando -1 <= FE <= 1*/
+inline int ArbolAVL::factorEquilibrio(Nodo* nodo) const{
+    if(nodo == nullptr){
+        return 0;
+    }
+
+    return altura(nodo->izquierdo) - altura(nodo->derecho); 
+}
+
+inline ArbolAVL::Nodo* ArbolAVL::rotarIzquierda(Nodo* nodo){
+    Nodo* nuevoRaiz = nodo->derecho;
+    Nodo* subarbol = nuevoRaiz->izquierdo;
+
+    nuevoRaiz->izquierdo = nodo;
+    nodo->derecho = subarbol;
+
+    actualizarAltura(nodo);
+    actualizarAltura(nuevoRaiz);
+
+    return nuevoRaiz;
+}
+
+
+inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
+    Nodo* nuevoRaiz = nodo->izquierdo;
+    Nodo* subarbol = nodo->derecho;
+
+    nuevoRaiz->derecho = nodo;
+    nodo->izquierdo = subarbol;
+
+    actualizarAltura(nodo);
+    actualizarAltura(nuevoRaiz);
+
+    return nuevoRaiz;
+}
+
+
+inline void ArbolAVL::insertar(int valor) {
+    // TODO: reemplazar por la implementacion real (con rebalanceo).
+    (void)valor;
+}
+
+inline void ArbolAVL::eliminar(int valor) {
+    // TODO: reemplazar por la implementacion real (con rebalanceo).
+    (void)valor;
+}
+
+inline bool ArbolAVL::buscar(int valor) const {
+    // TODO: reemplazar por la implementacion real.
+    (void)valor;
+    return false;
+}
+
+inline ResultadoConsulta ArbolAVL::mejorCompra() const {
+    // TODO: reemplazar por la implementacion real.
+    return ResultadoConsulta{false, 0};
+}
+
+inline ResultadoConsulta ArbolAVL::mejorVenta() const {
+    // TODO: reemplazar por la implementacion real.
+    return ResultadoConsulta{false, 0};
+}
+
+inline std::list<int> ArbolAVL::recorridoInorden() const {
+    // TODO: reemplazar por la implementacion real.
+    return std::list<int>();
+}
