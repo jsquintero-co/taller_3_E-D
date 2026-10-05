@@ -80,6 +80,7 @@ inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
     return nuevoRaiz;
 }
 
+//Falta balancear
 
 inline void ArbolAVL::insertar(int valor) {
     // TODO: reemplazar por la implementacion real (con rebalanceo).
