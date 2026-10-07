@@ -80,7 +80,7 @@ inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
     return nuevoRaiz;
 }
 
-//Falta balancear
+
 inline ArbolAVL::Nodo* ArbolAVL::balancear(Nodo* nodo){
     if (nodo == nullptr){
         return;
@@ -145,16 +145,82 @@ inline ArbolAVL::Nodo* ArbolAVL::insertar(Nodo* nodo, int valor) {
     return balancear(nodo);
 }
 
+//Mínimo nodo del sub-árbol
+inline ArbolAVL::Nodo* ArbolAVL::minimo(Nodo* nodo) {
+    while (nodo->izquierdo != nullptr) {
+        nodo = nodo->izquierdo;
+    }
+
+    return nodo;
+}
+
 
 inline void ArbolAVL::insertar(int valor) {
     raiz_ = insertar(raiz_, valor);
 }
 
-inline void ArbolAVL::eliminar(int valor) {
-    // TODO: reemplazar por la implementacion real (con rebalanceo).
-    (void)valor;
+//Eliminar
+inline ArbolAVL::Nodo* ArbolAVL::eliminar(Nodo* nodo, int valor) {
+    // El valor no está en el árbol
+    if (nodo == nullptr) {
+        return nullptr;
+    }
+
+    // Buscar en el subárbol izquierdo
+    if (valor < nodo->valor) {
+        nodo->izquierdo = eliminar(nodo->izquierdo, valor);
+    }
+
+    // Buscar en el subárbol derecho
+    else if (valor > nodo->valor) {
+        nodo->derecho = eliminar(nodo->derecho, valor);
+    }
+
+    // Encontramos el nodo
+    else {
+
+        // Caso 1: no tiene hijos
+        if (nodo->izquierdo == nullptr &&
+            nodo->derecho == nullptr) {
+
+            delete nodo;
+            return nullptr;
+        }
+
+        // Caso 2: solamente tiene hijo derecho
+        if (nodo->izquierdo == nullptr) {
+            Nodo* temporal = nodo->derecho;
+
+            delete nodo;
+            return temporal;
+        }
+
+        // Caso 3: solamente tiene hijo izquierdo
+        if (nodo->derecho == nullptr) {
+            Nodo* temporal = nodo->izquierdo;
+
+            delete nodo;
+            return temporal;
+        }
+
+        // Caso 4: tiene dos hijos
+        Nodo* sucesor = minimo(nodo->derecho);
+
+        nodo->valor = sucesor->valor;
+
+        nodo->derecho = eliminar(nodo->derecho, sucesor->valor);
+    }
+
+    // Actualizar altura y rebalancear
+    return balancear(nodo);
 }
 
+inline void ArbolAVL::eliminar(int valor) {
+    raiz_ = eliminar(raiz_, valor);
+}
+
+
+//Falta buscar() y mejorCompra(), mejorVenta() y recorridoInorden()
 inline bool ArbolAVL::buscar(int valor) const {
     // TODO: reemplazar por la implementacion real.
     (void)valor;
