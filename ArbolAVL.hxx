@@ -81,10 +81,73 @@ inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
 }
 
 //Falta balancear
+inline ArbolAVL::Nodo* ArbolAVL::balancear(Nodo* nodo){
+    if (nodo == nullptr){
+        return;
+    }
+
+    actualizarAltura(nodo);
+
+    int factor = factorEquilibrio(nodo);
+
+    //Caso izquierdo-izquierdo
+    if(factor > 1 && factorEquilibrio(nodo->izquierdo) >= 0){
+        return rotarDerecha(nodo);
+    }
+
+    //Caso derecho-derecho
+    if(factor < -1 && factorEquilibrio(nodo->derecho) <= 0){
+        return rotarDerecha(nodo);
+    }
+
+    //Caso izqueirda-derecha
+    if(factor > 1 && factorEquilibrio(nodo->izquierdo) < 0){
+        nodo->izquierdo = rotarIzquierda(nodo->izquierdo);
+        return rotarDerecha(nodo);
+    }
+
+    //Caso derecha-izquierda
+    if(factor < -1 && factorEquilibrio(nodo->derecho) > 0){
+        nodo->derecho = rotarDerecha(nodo->derecho);
+        return rotarIzquierda(nodo);
+    }
+
+    return nodo;
+}
+
+
+inline ArbolAVL::Nodo* ArbolAVL::insertar(Nodo* nodo, int valor) {
+    // Encontramos la posición donde insertar
+    if (nodo == nullptr) {
+        Nodo* nuevo = new Nodo;
+        nuevo->valor = valor;
+        nuevo->altura = 1;
+        nuevo->izquierdo = nullptr;
+        nuevo->derecho = nullptr;
+
+        return nuevo;
+    }
+
+    // Insertar en el subárbol izquierdo
+    if (valor < nodo->valor) {
+        nodo->izquierdo = insertar(nodo->izquierdo, valor);
+    }
+    // Insertar en el subárbol derecho
+    else if (valor > nodo->valor) {
+        nodo->derecho = insertar(nodo->derecho, valor);
+    }
+    // Si ya existe, no hacemos nada
+    else {
+        return nodo;
+    }
+
+    // Al regresar de la recursión, actualizamos y balanceamos
+    return balancear(nodo);
+}
+
 
 inline void ArbolAVL::insertar(int valor) {
-    // TODO: reemplazar por la implementacion real (con rebalanceo).
-    (void)valor;
+    raiz_ = insertar(raiz_, valor);
 }
 
 inline void ArbolAVL::eliminar(int valor) {
