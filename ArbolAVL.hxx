@@ -221,23 +221,87 @@ inline void ArbolAVL::eliminar(int valor) {
 
 
 //Falta buscar() y mejorCompra(), mejorVenta() y recorridoInorden()
+
+//Compara el nodo actual, Si es menor busca por izquierda, si es mayor por derecha
 inline bool ArbolAVL::buscar(int valor) const {
-    // TODO: reemplazar por la implementacion real.
-    (void)valor;
-    return false;
+    return buscar(raiz_, valor);
 }
 
+inline bool ArbolAVL::buscar(Nodo* nodo, int valor) const {
+    if (nodo == nullptr) {
+        return false;
+    }
+
+    if (valor == nodo->valor) {
+        return true;
+    }
+
+    if (valor < nodo->valor) {
+        return buscar(nodo->izquierdo, valor);
+    }
+
+    return buscar(nodo->derecho, valor);
+}
+
+
+//Valores postivios (el valor más grande)
+//Osea, el máximo es el nodo de más a la derecha
 inline ResultadoConsulta ArbolAVL::mejorCompra() const {
-    // TODO: reemplazar por la implementacion real.
-    return ResultadoConsulta{false, 0};
+    Nodo* actual = raiz_;
+
+    while (actual != nullptr && actual->derecho != nullptr) {
+        actual = actual->derecho;
+    }
+
+    if (actual == nullptr || actual->valor <= 0) {
+        return ResultadoConsulta{false, 0};
+    }
+
+    return ResultadoConsulta{true, actual->valor};
 }
 
+
+/*Se representan con valores negativos, la mejor venta es la que más
+Cerca está de 0*/
 inline ResultadoConsulta ArbolAVL::mejorVenta() const {
-    // TODO: reemplazar por la implementacion real.
-    return ResultadoConsulta{false, 0};
+    Nodo* actual = raiz_;
+    Nodo* candidato = nullptr;
+
+    while (actual != nullptr) {
+        if (actual->valor < 0) {
+            candidato = actual;
+            actual = actual->derecho;
+        }
+        else {
+            actual = actual->izquierdo;
+        }
+    }
+
+    if (candidato == nullptr) {
+        return ResultadoConsulta{false, 0};
+    }
+
+    return ResultadoConsulta{true, candidato->valor};
 }
+
+//  
 
 inline std::list<int> ArbolAVL::recorridoInorden() const {
-    // TODO: reemplazar por la implementacion real.
-    return std::list<int>();
+    std::list<int> lista;
+    recorridoInorden(raiz_, lista);
+
+    return lista;
+}
+
+inline void ArbolAVL::recorridoInorden(
+    Nodo* nodo,
+    std::list<int>& lista
+) const {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    recorridoInorden(nodo->izquierdo, lista);
+    lista.push_back(nodo->valor);
+    recorridoInorden(nodo->derecho, lista);
 }
