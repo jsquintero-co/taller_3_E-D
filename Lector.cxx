@@ -1,4 +1,5 @@
 #include "Lector.h"
+#include "Orden.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -42,26 +43,28 @@ void procesarEventos(const std::string& rutaArchivo, ArbolAVL& arbol) {
             std::string id;
             int precio;
             iss >> id >> precio;
+            Orden orden(id, precio);
             ResultadoConsulta venta = arbol.mejorVenta();
             if (venta.existe && precio >= (-venta.valor)) {
                 arbol.eliminar(venta.valor);
                 std::cout << "COMPRA " << id << " " << precio
                           << " -> cruza con venta a " << (-venta.valor) << std::endl;
             } else {
-                arbol.insertar(precio);
+                arbol.insertar(orden.precioConSigno);
                 std::cout << "COMPRA " << id << " " << precio << " -> en espera" << std::endl;
             }
         } else if (comando == "VENTA") {
             std::string id;
             int precio;
             iss >> id >> precio;
+            Orden orden(id, -precio);
             ResultadoConsulta compra = arbol.mejorCompra();
             if (compra.existe && compra.valor >= precio) {
                 arbol.eliminar(compra.valor);
                 std::cout << "VENTA " << id << " " << precio
                           << " -> cruza con compra a " << compra.valor << std::endl;
             } else {
-                arbol.insertar(-precio);
+                arbol.insertar(orden.precioConSigno);
                 std::cout << "VENTA " << id << " " << precio << " -> en espera" << std::endl;
             }
         } else if (comando == "CANCELAR") {
