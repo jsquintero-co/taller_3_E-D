@@ -1,7 +1,5 @@
-// (ArbolAVL.h ya esta incluido: este archivo se incluye desde su
-// final). Todas las funciones son TODO. Si agrega funciones nuevas
-// aqui, marquelas 'inline' para evitar errores de multiples
-// definiciones al enlazar (ver nota en el README).
+// Implementacion inline del TAD ArbolAVL.
+// El archivo se incluye desde ArbolAVL.h y no se compila por separado.
 
 inline ArbolAVL::ArbolAVL() : raiz_(nullptr) {}
 
@@ -19,8 +17,7 @@ inline void ArbolAVL::destruir(Nodo* nodo){
 
 
 inline ArbolAVL::~ArbolAVL() {
-    // TODO(Estudiante): libere la memoria de todos los nodos del
-    // arbol (recorrido postorden: primero los hijos, despues el nodo).
+    // Liberacion recursiva en postorden.
     destruir(raiz_);
 }
 
@@ -69,7 +66,7 @@ inline ArbolAVL::Nodo* ArbolAVL::rotarIzquierda(Nodo* nodo){
 
 inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
     Nodo* nuevoRaiz = nodo->izquierdo;
-    Nodo* subarbol = nodo->derecho;
+    Nodo* subarbol = nuevoRaiz->derecho;
 
     nuevoRaiz->derecho = nodo;
     nodo->izquierdo = subarbol;
@@ -83,7 +80,7 @@ inline ArbolAVL::Nodo* ArbolAVL::rotarDerecha(Nodo* nodo){
 
 inline ArbolAVL::Nodo* ArbolAVL::balancear(Nodo* nodo){
     if (nodo == nullptr){
-        return;
+        return nullptr;
     }
 
     actualizarAltura(nodo);
@@ -97,7 +94,7 @@ inline ArbolAVL::Nodo* ArbolAVL::balancear(Nodo* nodo){
 
     //Caso derecho-derecho
     if(factor < -1 && factorEquilibrio(nodo->derecho) <= 0){
-        return rotarDerecha(nodo);
+        return rotarIzquierda(nodo);
     }
 
     //Caso izqueirda-derecha
@@ -220,7 +217,7 @@ inline void ArbolAVL::eliminar(int valor) {
 }
 
 
-//Falta buscar() y mejorCompra(), mejorVenta() y recorridoInorden()
+// Busqueda, consultas y recorrido inorden.
 
 //Compara el nodo actual, Si es menor busca por izquierda, si es mayor por derecha
 inline bool ArbolAVL::buscar(int valor) const {
